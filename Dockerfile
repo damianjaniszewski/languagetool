@@ -1,4 +1,4 @@
-ARG LANGUAGETOOL_VERSION=5.0.1
+ARG LANGUAGETOOL_VERSION=5.1.3
 
 FROM debian:stretch as build
 
@@ -20,7 +20,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-ARG LANGUAGETOOL_VERSION
+ARG LANGUAGETOOL_VERSION=5.1
 
 RUN git clone https://github.com/languagetool-org/languagetool.git --depth 1 -b v${LANGUAGETOOL_VERSION}
 
@@ -38,7 +38,7 @@ RUN apk update \
         libgomp \
         gcompat
 
-ARG LANGUAGETOOL_VERSION
+ARG LANGUAGETOOL_VERSION=5.1
 
 COPY --from=build /dist .
 
