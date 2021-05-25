@@ -18,13 +18,13 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-ARG LANGUAGETOOL_VERSION=5.2.3
+ARG LANGUAGETOOL_VERSION=5.3
 RUN git clone https://github.com/languagetool-org/languagetool.git --depth 1 -b v${LANGUAGETOOL_VERSION} --single-branch
 
 WORKDIR /languagetool
 RUN ["mvn", "--projects", "languagetool-standalone", "--also-make", "package", "-DskipTests", "--quiet"]
 
-ARG LANGUAGETOOL_VERSION=5.2
+ARG LANGUAGETOOL_VERSION=5.3
 RUN unzip /languagetool/languagetool-standalone/target/LanguageTool-${LANGUAGETOOL_VERSION}.zip -d /dist
 
 FROM openjdk:8-jre-alpine
@@ -37,7 +37,7 @@ RUN apk update \
 
 COPY --from=build /dist .
 
-ARG LANGUAGETOOL_VERSION=5.2
+ARG LANGUAGETOOL_VERSION=5.3
 WORKDIR /LanguageTool-${LANGUAGETOOL_VERSION}
 
 RUN mkdir /nonexistent && touch /nonexistent/.languagetool.cfg
